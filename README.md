@@ -3,7 +3,7 @@
 
 ### kafka-actuators
 
-A Spring Boot `info` actuator that displays the health of the Kafka cluster, based on the number of currently running kafka nodes and the configure broker setting `min.insync.replicas`.
+A Spring Boot `info` actuator that displays the health of the Kafka cluster, based on the number of currently running kafka nodes and the configured broker setting `min.insync.replicas`.
 
 Examples:
 
