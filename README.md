@@ -34,7 +34,19 @@ Examples:
 
 #### Spring KafkaAdmin is required
 
-KafkaAdmin is also created from Spring org.springframework.boot.autoconfigure.kafka.EnableAutoConfiguration. Alternatively, use sth like this:
+##### Option 1: Standard spring auto-configuration
+
+KafkaAdmin is by default created from Spring `org.springframework.boot.autoconfigure.kafka.EnableAutoConfiguration` via spring properties.
+
+```
+spring:
+  kafka:
+    admin:
+      client-id: admin-client-id
+    bootstrap-servers: ${config.kafkaBootstrapAddress}
+```
+
+##### Option 2: Manual creation
 
 ```
 @Slf4j
@@ -42,18 +54,24 @@ KafkaAdmin is also created from Spring org.springframework.boot.autoconfigure.ka
 public class KafkaActuatorsConfiguration {
 	
 	@Autowired
-	private KafkaStreamsProperties kafkaStreamsProperties;
+	private KafkaProperties kafkaProperties;
 	
 	@Primary
 	@Bean
 	public KafkaAdmin kafkaAdmin() {  
-	    return new KafkaAdmin(Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaStreamsProperties.getAddress()));
+	    return new KafkaAdmin(Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.kafkaBootstrapAddress()));
 	}
 
 }
 ```
 
 #### Configuration properties
+
+| Parameter | Description | Example | Default Value | Required |
+| --- | --- | --- | --- | --- |
+| enabled | If the actuator is enabled or not | enabled: true | false | Required |
+| responseTimeout | How long to wait for a reply from Kafka | responseTimeout: PT5S | 100 ms | Optional |
+| brokerConfigurationProperty | Kafka broker property to compare to number of the currently running nodes, for determining if the cluster is healthy | brokerConfigurationProperty: min.insync.replicas | min.insync.replicas | Optional |
 
 ```
 management:
