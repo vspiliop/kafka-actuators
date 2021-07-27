@@ -71,7 +71,7 @@ public class KafkaActuatorsConfiguration {
 | --- | --- | --- | --- | --- |
 | enabled | If the actuator is enabled or not | enabled: true | false | Required |
 | responseTimeout | How long to wait for a reply from Kafka | responseTimeout: PT5S | 100 ms | Optional |
-| brokerConfigurationProperty | Kafka broker property to compare to number of the currently running nodes, for determining if the cluster is healthy | brokerConfigurationProperty: min.insync.replicas | min.insync.replicas | Optional |
+| brokerConfigurationProperty | Kafka broker property to compare to number of currently running nodes, for determining if the cluster is healthy or not | brokerConfigurationProperty: min.insync.replicas | min.insync.replicas | Optional |
 
 ```
 management:
