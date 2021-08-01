@@ -3,9 +3,15 @@
 
 ### kafka-actuators
 
-A Spring Boot `info` actuator that displays the health of the Kafka cluster, based on the number of currently running kafka nodes and the configured broker setting `min.insync.replicas`.
+A Spring Boot `info` actuator that displays the health of the Kafka cluster, based on the number of currently running
+ kafka broker nodes, and a configurable broker setting (by default `min.insync.replicas` is used). If you use Kafka transactions,
+ then it would make sense to use `transaction.state.log.replication.factor` instead.
+ 
+Based on code that used to be part of the Spring Boot project, but was removed. Currently, there is no available Spring Boot Kafka actuator.
 
 Examples:
+
+- The currently running Kafka brokers are enough for the cluster to operate properly.
 
 ```
 {
@@ -19,6 +25,8 @@ Examples:
 }
 ```
 
+- The currently running Kafka brokers are less than the required number for the cluster to operate properly.
+
 ```
 {
     "kafka": {
@@ -27,6 +35,16 @@ Examples:
         "brokerId": "0",
         "minNumberOfNodesRequired": 2,
         "nodes": 1
+    }
+}
+```
+
+- The actuator failed to connect to the Kafka cluster.
+
+```
+{
+    "kafka": {
+        "status": "DOWN"
     }
 }
 ```
@@ -54,12 +72,12 @@ spring:
 public class KafkaActuatorsConfiguration {
 	
 	@Autowired
-	private KafkaProperties kafkaProperties;
+	private KafkaProperties config;
 	
 	@Primary
 	@Bean
 	public KafkaAdmin kafkaAdmin() {  
-	    return new KafkaAdmin(Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaProperties.kafkaBootstrapAddress()));
+	    return new KafkaAdmin(Map.of(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, config.kafkaBootstrapAddress()));
 	}
 
 }
