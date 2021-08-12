@@ -110,6 +110,6 @@ From Maven Central as follows:
 <dependency>
   <groupId>io.github.vspiliop.monitoring</groupId>
   <artifactId>kafka-actuators</artifactId>
-  <version>0.0.1</version>
+  <version>0.0.5</version>
 </dependency>
 ```
